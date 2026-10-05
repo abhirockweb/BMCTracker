@@ -17,7 +17,7 @@ jobs:
 
       - name: Download source
         run: |
-          curl -L -o /tmp/bmc.zip "https://muse.ai/files/1237082279498569/2873756242988546/xzv0bybhxvebbf1qtjudj1vs/BMCTracker.zip"
+          curl -L -o /tmp/bmc.zip "https://muse.ai/files/1237082279498569/2461186484410082/5fcs7wxplb7enoqpx05btski/BMCTracker.zip"
           unzip -q /tmp/bmc.zip -d /tmp/src
           ls /tmp/src/bmc-tracker
 
