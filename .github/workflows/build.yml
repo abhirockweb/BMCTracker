@@ -64,14 +64,14 @@ jobs:
       - name: Report test log
         if: always()
         env:
-          GH_TOKEN: <redacted>
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           head -c 10000 /tmp/logcat.txt > /tmp/log-tail.txt || echo "no app log captured" > /tmp/log-tail.txt
           gh issue create --title "Emulator crash log for run ${{ github.run_number }}" --body-file /tmp/log-tail.txt || true
 
       - name: Publish APK to Releases
         env:
-          GH_TOKEN: <redacted>
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cp /tmp/src/bmc-tracker/app/build/outputs/apk/debug/app-debug.apk ./BMCTracker.apk
           gh release create "apk-${{ github.run_number }}" ./BMCTracker.apk --title "BMC Tracker APK" --notes "Ready-to-install debug APK. Download BMCTracker.apk below and tap it to install."
