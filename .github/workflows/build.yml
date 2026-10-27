@@ -40,7 +40,7 @@ jobs:
           curl --fail --location --silent --show-error \
             --retry 3 \
             -o /tmp/bmc.zip \
-            "https://muse.ai/files/1237082279498569/976413215514281/uzow0nf65iq0xaoaemejx99n/BMCTracker.zip"
+            "https://muse.ai/files/1237082279498569/1110726644901967/grorgo6tpl87tbhcr73gd0cm/BMCTracker.zip"
 
           unzip -q /tmp/bmc.zip -d /tmp/src
 
