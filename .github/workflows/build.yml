@@ -76,48 +76,12 @@ jobs:
           arch: x86_64
           disable-animations: true
           script: |
-            set -eu
-
-            APK="/tmp/src/bmc-tracker/app/build/outputs/apk/debug/app-debug.apk"
-            PACKAGE="com.bmc.tracker"
-            LOG_DIR="$GITHUB_WORKSPACE/bmc-test-logs"
-
-            trap '
-              adb logcat -d -v threadtime \
-                > "$LOG_DIR/logcat.txt" 2>&1 || true
-              adb shell dumpsys activity activities \
-                > "$LOG_DIR/activities.txt" 2>&1 || true
-            ' EXIT
-
             adb logcat -c
-            adb install -r "$APK"
-
-            adb shell am start -W \
-              -n "$PACKAGE/.MainActivity"
-
-            APP_RUNNING=false
-
-            for i in $(seq 1 15); do
-              if adb shell pidof "$PACKAGE" >/dev/null 2>&1; then
-                APP_RUNNING=true
-                break
-              fi
-              sleep 2
-            done
-
-            if [ "$APP_RUNNING" != true ]; then
-              echo "ERROR: App process did not start."
-              exit 1
-            fi
-
-            sleep 10
-
-            if ! adb shell pidof "$PACKAGE" >/dev/null 2>&1; then
-              echo "ERROR: App crashed or exited after startup."
-              exit 1
-            fi
-
-            echo "PASS: App remained running after startup."
+            adb install -r /tmp/src/bmc-tracker/app/build/outputs/apk/debug/app-debug.apk
+            adb shell am start -W -n com.bmc.tracker/.MainActivity
+            sleep 15
+            adb logcat -d -v threadtime > "$GITHUB_WORKSPACE/bmc-test-logs/logcat.txt" || true
+            adb shell pidof com.bmc.tracker
 
       - name: Calculate APK checksum
         if: success()
@@ -155,3 +119,4 @@ jobs:
           Download BMCTracker.apk to install for testing.
           SHA-256 checksum is included in SHA256SUMS.txt.
           This is a debug build, not a production-signed release."
+
